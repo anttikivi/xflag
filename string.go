@@ -1,4 +1,4 @@
-package pflag
+package xflag
 
 // -- string Value
 type stringValue string

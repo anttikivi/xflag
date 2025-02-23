@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package pflag
+package xflag
 
 import (
 	"bytes"
@@ -50,7 +50,7 @@ func (v *triStateValue) String() string {
 	return strconv.FormatBool(*v == triStateTrue)
 }
 
-// The type of the flag as required by the pflag.Value interface
+// The type of the flag as required by the xflag.Value interface
 func (v *triStateValue) Type() string {
 	return "version"
 }

@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package pflag
+package xflag
 
 import (
 	goflag "flag"
@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-// flagValueWrapper implements pflag.Value around a flag.Value.  The main
+// flagValueWrapper implements xflag.Value around a flag.Value.  The main
 // difference here is the addition of the Type method that returns a string
 // name of the type.  As this is generally unknown, we approximate that with
 // reflection.
@@ -27,7 +27,7 @@ type goBoolFlag interface {
 }
 
 func wrapFlagValue(v goflag.Value) Value {
-	// If the flag.Value happens to also be a pflag.Value, just use it directly.
+	// If the flag.Value happens to also be a xflag.Value, just use it directly.
 	if pv, ok := v.(Value); ok {
 		return pv
 	}
@@ -57,18 +57,18 @@ func (v *flagValueWrapper) Type() string {
 	return v.flagType
 }
 
-// PFlagFromGoFlag will return a *pflag.Flag given a *flag.Flag
+// XFlagFromGoFlag will return a *xflag.Flag given a *flag.Flag
 // If the *flag.Flag.Name was a single character (ex: `v`) it will be accessiblei
 // with both `-v` and `--v` in flags. If the golang flag was more than a single
 // character (ex: `verbose`) it will only be accessible via `--verbose`
-func PFlagFromGoFlag(goflag *goflag.Flag) *Flag {
+func XFlagFromGoFlag(goflag *goflag.Flag) *Flag {
 	// Remember the default value as a string; it won't change.
 	flag := &Flag{
 		Name:  goflag.Name,
 		Usage: goflag.Usage,
 		Value: wrapFlagValue(goflag.Value),
 		// Looks like golang flags don't set DefValue correctly  :-(
-		//DefValue: goflag.DefValue,
+		// DefValue: goflag.DefValue,
 		DefValue: goflag.Value.String(),
 	}
 	// Ex: if the golang flag was -v, allow both -v and --v to work
@@ -81,16 +81,16 @@ func PFlagFromGoFlag(goflag *goflag.Flag) *Flag {
 	return flag
 }
 
-// AddGoFlag will add the given *flag.Flag to the pflag.FlagSet
+// AddGoFlag will add the given *flag.Flag to the xflag.FlagSet
 func (f *FlagSet) AddGoFlag(goflag *goflag.Flag) {
 	if f.Lookup(goflag.Name) != nil {
 		return
 	}
-	newflag := PFlagFromGoFlag(goflag)
+	newflag := XFlagFromGoFlag(goflag)
 	f.AddFlag(newflag)
 }
 
-// AddGoFlagSet will add the given *flag.FlagSet to the pflag.FlagSet
+// AddGoFlagSet will add the given *flag.FlagSet to the xflag.FlagSet
 func (f *FlagSet) AddGoFlagSet(newSet *goflag.FlagSet) {
 	if newSet == nil {
 		return

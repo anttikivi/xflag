@@ -1,4 +1,4 @@
-package pflag
+package xflag
 
 import (
 	"encoding/base64"
@@ -10,12 +10,12 @@ import (
 // BytesHex adapts []byte for use as a flag. Value of flag is HEX encoded
 type bytesHexValue []byte
 
-// String implements pflag.Value.String.
+// String implements xflag.Value.String.
 func (bytesHex bytesHexValue) String() string {
 	return fmt.Sprintf("%X", []byte(bytesHex))
 }
 
-// Set implements pflag.Value.Set.
+// Set implements xflag.Value.Set.
 func (bytesHex *bytesHexValue) Set(value string) error {
 	bin, err := hex.DecodeString(strings.TrimSpace(value))
 
@@ -28,7 +28,7 @@ func (bytesHex *bytesHexValue) Set(value string) error {
 	return nil
 }
 
-// Type implements pflag.Value.Type.
+// Type implements xflag.Value.Type.
 func (*bytesHexValue) Type() string {
 	return "bytesHex"
 }
@@ -111,12 +111,12 @@ func BytesHexP(name, shorthand string, value []byte, usage string) *[]byte {
 // BytesBase64 adapts []byte for use as a flag. Value of flag is Base64 encoded
 type bytesBase64Value []byte
 
-// String implements pflag.Value.String.
+// String implements xflag.Value.String.
 func (bytesBase64 bytesBase64Value) String() string {
 	return base64.StdEncoding.EncodeToString([]byte(bytesBase64))
 }
 
-// Set implements pflag.Value.Set.
+// Set implements xflag.Value.Set.
 func (bytesBase64 *bytesBase64Value) Set(value string) error {
 	bin, err := base64.StdEncoding.DecodeString(strings.TrimSpace(value))
 
@@ -129,7 +129,7 @@ func (bytesBase64 *bytesBase64Value) Set(value string) error {
 	return nil
 }
 
-// Type implements pflag.Value.Type.
+// Type implements xflag.Value.Type.
 func (*bytesBase64Value) Type() string {
 	return "bytesBase64"
 }
