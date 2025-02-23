@@ -76,7 +76,7 @@ func (s *stringSliceValue) GetSlice() []string {
 	return *s.value
 }
 
-func stringSliceConv(sval string) (interface{}, error) {
+func stringSliceConv(sval string) (any, error) {
 	sval = sval[1 : len(sval)-1]
 	// An empty string would cause a slice with one (empty) string
 	if len(sval) == 0 {
