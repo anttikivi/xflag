@@ -1,3 +1,3 @@
 module github.com/anttikivi/xflag
 
-go 1.12
+go 1.22
